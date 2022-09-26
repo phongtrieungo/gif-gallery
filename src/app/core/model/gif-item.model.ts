@@ -1,3 +1,4 @@
+
 export interface GifItem {
     thumbnailImg: {
         url: string,
@@ -6,11 +7,9 @@ export interface GifItem {
     };
     title: string;
     id: string;
-    embedUrl: string
 }
 
 export const initialGifItem: GifItem = {
-    embedUrl: '',
     id: '',
     thumbnailImg: {
         height: 0,

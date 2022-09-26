@@ -3,20 +3,19 @@ import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { TrendingResponse } from "../model/gif-response.model";
 
-
-
 @Injectable({
     providedIn: 'root'
 })
-export class GifTrendingApiService {
+export class SearchGifApiService {
     constructor(private readonly httpClient: HttpClient) {}
 
-    get(): Observable<any[]> {
+    search(term: string): Observable<any[]> {
         let params = new HttpParams();
 
         params = params.append('api_key', 'yUwM3GFwj1XxCagiof8jFxKK3kcM3sT6');
-
-        return this.httpClient.get<any>('https://api.giphy.com/v1/gifs/trending', { params }).pipe(
+        params = params.append('q', term);
+        
+        return this.httpClient.get<any>('https://api.giphy.com/v1/gifs/search', { params }).pipe(
             map((response: TrendingResponse) => {
                 return response.data.map(item => {
                     return {
