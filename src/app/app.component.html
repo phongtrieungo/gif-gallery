@@ -2,8 +2,8 @@
   <gg-search (updateSearchTerm)="onChangeSearchTerm($event)"></gg-search>
 
   <ng-container *ngIf="list.length">
-    <section class="grid-card">
+    <gg-shared-list>
       <gg-gif-card *ngFor="let item of list" [gifItem]="item"></gg-gif-card>
-    </section>
+    </gg-shared-list>
   </ng-container>
 </main>
