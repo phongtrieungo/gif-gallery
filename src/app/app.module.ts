@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import * as components from './components';
 import { CoreModule } from './core/core.module';
 import { ConfigService } from './core/service/config.service';
 import { Config } from './core/model/config.model';
@@ -22,12 +21,6 @@ function loadConfig(httpClient: HttpClient, configService: ConfigService): () =>
   return () => lastValueFrom(getConfigSuccess);
 }
 
-const COMPONENTS = [
-  components.GifCardComponent,
-  components.SearchComponent,
-  components.SharedListComponent
-];
-
 @NgModule({
   declarations: [
     AppComponent
@@ -38,7 +31,6 @@ const COMPONENTS = [
     AppRoutingModule,
     HttpClientModule,
     CoreModule,
-    ...COMPONENTS
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: loadConfig, deps: [HttpClient, ConfigService], multi: true }

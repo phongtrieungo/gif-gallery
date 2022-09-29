@@ -1,0 +1,9 @@
+<span class="card-wrapper">
+    <span class="favorite-wrapper" (click)="onBookmark()">
+        <img src="{{ gifItem.bookmarked ? '../../assets/icons/solid-heart.svg' : '../../assets/icons/outline-heart.svg'}}"
+            class="favorite" />
+    </span>
+    <img [src]="gifItem.thumbnailImg.url" [width]="gifItem.thumbnailImg.width" [height]="gifItem.thumbnailImg.height"
+        (click)="onExpand()" />
+    <p class="text">{{ gifItem.title }}</p>
+</span>

@@ -9,22 +9,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from "rxjs";
     template: `
         <input type="text" name="search-gif" id="search-gif" [placeholder]="placeHolder" [formControl]="searchTerm">
     `,
-    styles: [
-        `
-            input[type=text] {
-                border: none;
-                padding: 15px;
-                cursor: pointer;
-                width: 100%;
-                margin-bottom: 15px;
-                box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-            }
-            input[type=text]:focus {
-                border: none;
-                outline: none;
-            }
-        `
-    ],
+    styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
     @Input() placeHolder = 'Search gif ...';

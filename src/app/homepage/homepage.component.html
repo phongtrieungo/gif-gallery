@@ -1,0 +1,34 @@
+<main class="container">
+    <section class="header">
+        <gg-search (updateSearchTerm)="onChangeSearchTerm($event)"></gg-search>
+        <span class="book-mark" title="Bookmark" [routerLink]="['bookmark']">
+            <img src="../assets/icons/bookmark-square.svg" alt="Bookmark" />
+        </span>
+        <input type="file" class="file-upload" (change)="onUpload($event)" #fileUpload>
+        <button type="button" (click)="fileUpload.click()">
+            Upload
+        </button>
+    </section>
+
+    <ng-container *ngIf="(list | async)?.length; else loader">
+        <gg-shared-list (reachBottom)="onReachBottom($event)">
+            <gg-gif-card *ngFor="let item of (list | async); trackBy: trackByFn" [gifItem]="item"
+                (bookmark)="bookmarkGif($event)" (expand)="expand($event)"></gg-gif-card>
+        </gg-shared-list>
+    </ng-container>
+
+    <dialog [open]="isOpen" class="dialog">
+        <section class="content">
+            <span class="close" (click)="isOpen = false">X</span>
+            <ng-container *ngIf="selectedItem">
+                <img [src]="selectedItem.origin.url" [width]="selectedItem.origin.width"
+                    [height]="selectedItem.origin.height">
+                <p *ngIf="selectedItem.userName" class="text">Uploaded by {{ selectedItem.userName }}</p>
+            </ng-container>
+        </section>
+    </dialog>
+</main>
+
+<ng-template #loader>
+    <gg-loader></gg-loader>
+</ng-template>

@@ -2,71 +2,29 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import * as components from '../components';
+import * as components from '../shared/components';
+import { GifItem, initialGifItem } from '../core/model/gif-item.model';
 import { BookmarkService } from '../core/service/bookmark.service';
 import { GifTrendingApiService } from '../core/service/gif-trending-api.service';
 
 @Component({
   standalone: true,
   selector: 'gg-homepage',
-  template: `
-    <main class="container">
-      <section class="header">
-        <gg-search (updateSearchTerm)="onChangeSearchTerm($event)"></gg-search>
-        <span class="book-mark" title="Bookmark" [routerLink]="['bookmark']">
-          <img src="../assets/icons/bookmark-square.svg" alt="Bookmark" />
-        </span>
-      </section>
-
-      <ng-container *ngIf="(list | async)?.length; else loader">
-        <gg-shared-list (reachBottom)="onReachBottom($event)">
-          <gg-gif-card
-            *ngFor="let item of (list | async); trackBy: trackByFn"
-            [gifItem]="item"
-            (bookmark)="bookmarkGif($event)"
-          ></gg-gif-card>
-        </gg-shared-list>
-      </ng-container>
-    </main>
-
-    <ng-template #loader>
-      <gg-loader></gg-loader>
-    </ng-template>
-  `,
-  styles: [
-    `
-      .header {
-        display: flex;
-        align-items: center;
-
-        gg-search {
-          flex: 2;
-        }
-        .book-mark {
-          cursor: pointer;
-          margin-left: 20px;
-          width: 24px;
-        }
-      }
-
-      .grid-card {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
-        gap: 5px;
-      }
-    `,
-  ],
+  templateUrl: './homepage.component.html',
+  styleUrls: ['./homepage.component.scss'],
   imports: [
     RouterModule,
     CommonModule,
     components.SearchComponent,
     components.SharedListComponent,
-    components.GifCardComponent,
+    components.CardComponent,
     components.LoaderComponent,
   ],
 })
 export class HomePage implements OnInit {
   list: Observable<any[]> = this.gifTrendingService.list;
+  isOpen = false;
+  selectedItem: GifItem = initialGifItem;
   private currentOffset = 0;
   private currentSearchOffset = 0;
 
@@ -76,10 +34,17 @@ export class HomePage implements OnInit {
   constructor(
     private gifTrendingService: GifTrendingApiService,
     private bookmarkService: BookmarkService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.gifTrendingService.getTrending(this.currentOffset, false);
+
+    this.gifTrendingService.uploadedGif.subscribe(uploaded => {
+      if (uploaded) {
+        this.selectedItem = uploaded;
+        this.isOpen = true;
+      }
+    });
   }
 
   onChangeSearchTerm(searchTerm: string) {
@@ -102,6 +67,11 @@ export class HomePage implements OnInit {
     return item.id;
   }
 
+  expand(item: any) {
+    this.selectedItem = item;
+    this.isOpen = true;
+  }
+
   onReachBottom(isInBottom: boolean) {
     if (this.fetchTrending) {
       this.currentOffset = this.currentOffset + 50;
@@ -110,5 +80,10 @@ export class HomePage implements OnInit {
       this.currentSearchOffset = this.currentSearchOffset + 50;
       this.gifTrendingService.search(this.searchTerm, this.currentSearchOffset, true);
     }
+  }
+
+  onUpload(event: any) {
+    const file: File = event.target.files[0];
+    this.gifTrendingService.upload(file).subscribe((response: any) => this.gifTrendingService.getById(response.data.id));
   }
 }

@@ -42,14 +42,23 @@
   padding: 10px;
 }
 
+button {
+  border: none;
+  text-transform: uppercase;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 10px;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 768px) {
   :root {
-    --column: 3;
+    --column: 4;
   }
 }
 
 @media screen and (min-width: 1440px) {
   :root {
-    --column: 4;
+    --column: 6;
   }
 }

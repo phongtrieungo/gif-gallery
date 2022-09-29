@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BookmarkService } from '../core/service/bookmark.service';
-import * as components from '../components';
+import * as components from '../shared/components';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
     </section>
   `,
   styles: [``],
-  imports: [CommonModule, components.GifCardComponent, components.SharedListComponent],
+  imports: [CommonModule, components.CardComponent, components.SharedListComponent],
 })
 export class BookmarkComponent implements OnInit {
   list = [];

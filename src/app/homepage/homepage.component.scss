@@ -1,0 +1,59 @@
+.header {
+    display: flex;
+    align-items: center;
+
+    gg-search {
+        flex: 2;
+    }
+
+    .book-mark {
+        cursor: pointer;
+        margin-left: 20px;
+        width: 24px;
+    }
+
+    .file-upload {
+        display: none;
+    }
+}
+
+.grid-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 200px));
+    gap: 5px;
+}
+
+.dialog {
+    border: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &>.content {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: #FFF;
+            background-color: blueviolet;
+            border-radius: 50%;
+            padding: 5px 10px;
+        }
+
+        .text {
+            position: absolute;
+            top: 10px;
+            color: #FFF;
+            background-color: blueviolet;
+            padding: 5px 7px;
+            border-radius: 8px;
+            left: 10px;
+        }
+    }
+}
