@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { DomSanitizer } from "@angular/platform-browser";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { GifItem, initialGifItem } from "../core/model/gif-item.model";
 
 @Component({
@@ -7,8 +6,8 @@ import { GifItem, initialGifItem } from "../core/model/gif-item.model";
     selector: 'gg-gif-card',
     template: `
         <span class="card-wrapper">
-          <span class="favorite-wrapper">
-            <img src="../../assets/icons/outline-heart.svg" class="favorite" />
+          <span class="favorite-wrapper" (click)="onBookmark()">
+            <img src="{{ gifItem.bookmarked ? '../../assets/icons/solid-heart.svg' : '../../assets/icons/outline-heart.svg'}}" class="favorite" />
           </span>
           <img [src]="gifItem.thumbnailImg.url" [width]="gifItem.thumbnailImg.width" [height]="gifItem.thumbnailImg.height" />
           <p class="text">{{ gifItem.title }}</p>
@@ -64,9 +63,12 @@ import { GifItem, initialGifItem } from "../core/model/gif-item.model";
 export class GifCardComponent implements OnInit {
     @Input() gifItem: GifItem = initialGifItem;
 
-
-    constructor(public sanitizer: DomSanitizer) {}
+    @Output() bookmark = new EventEmitter();
 
     ngOnInit(): void {
+    }
+
+    onBookmark() {
+      this.bookmark.emit({...this.gifItem, bookmarked: true });
     }
 }

@@ -7,6 +7,7 @@ export interface GifItem {
     };
     title: string;
     id: string;
+    bookmarked: boolean;
 }
 
 export const initialGifItem: GifItem = {
@@ -16,5 +17,6 @@ export const initialGifItem: GifItem = {
         url: '',
         width: 0
     },
-    title: ''
+    title: '',
+    bookmarked: false
 }

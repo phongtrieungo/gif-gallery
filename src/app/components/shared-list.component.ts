@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -17,13 +17,19 @@ import { Component, HostListener } from '@angular/core';
   ],
 })
 export class SharedListComponent {
+
+  scrollEnd = false;
+
+  @Output() reachBottom = new EventEmitter<boolean>();
+
   @HostListener('scroll', ['$event'])
   onScroll(event: any) {
     if (
       event.target.offsetHeight + event.target.scrollTop >=
       event.target.scrollHeight - 1
     ) {
-      console.info('scroll')
+      this.scrollEnd = true;
+      this.reachBottom.emit(this.scrollEnd);
     }
   }
 }
