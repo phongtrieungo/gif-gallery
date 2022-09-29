@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -13,9 +13,17 @@ import { Component } from '@angular/core';
         column-gap: 15px;
         overflow-y: scroll;
       }
-    `
-  ]
+    `,
+  ],
 })
 export class SharedListComponent {
-
+  @HostListener('scroll', ['$event'])
+  onScroll(event: any) {
+    if (
+      event.target.offsetHeight + event.target.scrollTop >=
+      event.target.scrollHeight - 1
+    ) {
+      console.info('scroll')
+    }
+  }
 }

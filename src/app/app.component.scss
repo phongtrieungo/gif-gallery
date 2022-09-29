@@ -5,6 +5,19 @@
     padding: 10px;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+
+  gg-search {
+    flex: 2;
+  }
+  .book-mark {
+    margin-left: 20px;
+    width: 24px;
+  }
+}
+
 .grid-card {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 200px));

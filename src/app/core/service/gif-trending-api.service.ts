@@ -1,22 +1,20 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { TrendingResponse } from "../model/gif-response.model";
-
-
+import { ConfigService } from "./config.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class GifTrendingApiService {
-    constructor(private readonly httpClient: HttpClient) {}
+    private baseUrl = this.configService.getConfig.uri;
+
+    constructor(private readonly httpClient: HttpClient, private readonly configService: ConfigService) {}
 
     get(): Observable<any[]> {
-        let params = new HttpParams();
 
-        params = params.append('api_key', 'yUwM3GFwj1XxCagiof8jFxKK3kcM3sT6');
-
-        return this.httpClient.get<any>('https://api.giphy.com/v1/gifs/trending', { params }).pipe(
+        return this.httpClient.get<any>(`${this.baseUrl}trending`).pipe(
             map((response: TrendingResponse) => {
                 return response.data.map(item => {
                     return {
